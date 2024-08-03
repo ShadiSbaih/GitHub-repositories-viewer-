@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="main">
+        <div class="box">
+            <button class="changeMode">Change</button>
+            <h1>GitHub API</h1>
+            <input type="text" id="username" placeholder="Enter GitHub username" required>
+            <button id="fetch-btn">Fetch</button>
+        </div>
+        <div class="profile-info">
+            <!-- <div class="item-repo"></div> -->
+        </div>
+    </section>
+
+    <!-- Add this loading overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
