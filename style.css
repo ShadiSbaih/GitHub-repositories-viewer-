@@ -69,17 +69,20 @@ input#username {
     color: #333;
     caret-color: #05e010;
 }
+
 input#username:focus {
     border-color: #05e010;
     box-shadow: inset 1px 1px 1px 1px rgba(5, 224, 16, 0.5), inset -1px -1px 1px 1px rgba(5, 224, 16, 0.5);
 }
-input#username::selection{
+
+input#username::selection {
     background-color: #e00505;
     color: #fff;
 }
+
 #fetch-btn {
     width: clamp(120px, 30%, 750px);
-    padding: 18px ;
+    padding: 18px;
     background-color: #05e010;
     color: #fff;
     border: none;
@@ -103,15 +106,58 @@ input#username::selection{
     gap: 20px;
     width: 100%;
 }
-
 .item-repo {
     width: clamp(280px, 90%, 750px);
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    z-index: 2;
+    position: relative;
+    overflow: hidden;
 }
+/*******************************************/
+
+.item-repo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    clip-path: circle(15px at 32px 30px);
+    transition: clip-path 0.5s ease-in-out;
+    z-index: 0;
+}
+
+.item-repo:hover::before {
+    clip-path: circle(150% at 15px 15px);
+}
+
+.item-repo * {
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+/* .item-repo:hover * {
+    color: white;
+} */
+/*******************************************/
+/* Dark mode styles */
+body.dark-mode .item-repo {
+    background-color: #333;
+}
+
+body.dark-mode .item-repo::before {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* body.dark-mode .item-repo:hover * {
+    color: #000;
+} */
+
+/*******************************************/
 
 .repo-header {
     display: flex;
@@ -229,20 +275,25 @@ body.dark-mode #fetch-btn {
 body.dark-mode .item-repo {
     background-color: #333;
 }
+
 body.dark-mode .repo-name {
     color: #ff1f1f;
 }
-body.dark-mode svg.repo-icon  {
+
+body.dark-mode svg.repo-icon {
     stroke: #5672f1;
 }
 
 body.dark-mode .description {
     color: #ccc;
 }
-body.dark-mode p ,body.dark-mode span,body.dark-mode svg{
+
+body.dark-mode p,
+body.dark-mode span,
+body.dark-mode svg {
     color: #ccc;
 }
-body.dark-mode .repo-title{
+
+body.dark-mode .repo-title {
     color: #28ff0c;
 }
-
