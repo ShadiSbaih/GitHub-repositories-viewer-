@@ -46,6 +46,9 @@ async function show_repos(username) {
             const div = document.createElement('div');
             div.classList.add('item-repo');
             let description = repo.description;
+            let homepage=repo.homepage;
+            let available="Demo";
+            if (homepage === null) available = "No homepage provided.";
             if (description === null) description = "No description provided.";
             div.innerHTML = `
                 <div class="repo-header">
@@ -55,6 +58,13 @@ async function show_repos(username) {
                     <span class="repo-title">Repository</span>
                 </div>
                 <h2 class="repo-name">${repo.name}</h2>
+                  <div class="repo-info">
+                    <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+                      </svg> 
+                    <a href="${homepage}">${available}</a>
+                </div>
                 <div class="repo-info">
                     <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
