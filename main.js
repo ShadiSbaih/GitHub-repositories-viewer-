@@ -48,7 +48,7 @@ async function show_repos(username) {
             let description = repo.description;
             let homepage=repo.homepage;
             let available="Demo";
-            if (homepage === null) available = "No homepage provided.";
+            if (homepage === "") available = "No homepage provided.";
             if (description === null) description = "No description provided.";
             div.innerHTML = `
                 <div class="repo-header">
