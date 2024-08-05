@@ -3,6 +3,7 @@ const btn = document.getElementById("fetch-btn");
 const input = document.getElementById("username");
 const loadingOverlay = document.getElementById("loading-overlay");
 const changeMode = document.querySelector('.changeMode');
+const changeMode2 = document.querySelector('.changeMode2 input');
 const body = document.body;
 
 btn.addEventListener("click", async () => {
@@ -10,10 +11,6 @@ btn.addEventListener("click", async () => {
     showLoading();
     await show_repos(username);
     hideLoading();
-});
-
-changeMode.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
 });
 
 function showLoading() {
@@ -24,33 +21,40 @@ function hideLoading() {
     loadingOverlay.style.display = 'none';
 }
 
+changeMode.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+});
+
+changeMode2.addEventListener('click', () => {
+    body.classList.toggle('dark-mode');
+});
+
 async function getData(username) {
     try {
         const response = await fetch(`https://api.github.com/users/${username}/repos`);
         if (!response.ok) {
-            alert(`HTTP error! status: ${response.status}`);
-            return;
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
-        return data;
+        return await response.json();
     } catch (error) {
-        alert('There was a problem with the fetch operation:', error);
+        alert('There was a problem with the fetch operation: ' + error.message);
     }
 }
 
 async function show_repos(username) {
-    const x = await getData(username);
+    const repos = await getData(username);
     content.innerHTML = '';
-    if (x) {
-        x.forEach(repo => {
-            const div = document.createElement('div');
-            div.classList.add('item-repo');
-            let description = repo.description;
-            let homepage=repo.homepage;
-            let available="Demo";
-            if (homepage === "") available = "No homepage provided.";
-            if (description === null) description = "No description provided.";
-            div.innerHTML = `
+    if (repos) {
+        content.innerHTML = repos.map(repo => {
+            let description = repo.description ?? "No description provided.";
+            let homepage = repo.homepage;    
+            let available = "No homepage provided.";
+            if (homepage && homepage !== "") {
+                available = "Demo";
+            }
+
+            return `
+            <div class="item-repo">
                 <div class="repo-header">
                     <svg class="repo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
@@ -58,12 +62,12 @@ async function show_repos(username) {
                     <span class="repo-title">Repository</span>
                 </div>
                 <h2 class="repo-name">${repo.name}</h2>
-                  <div class="repo-info">
+                <div class="repo-info">
                     <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link">
                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
                         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
-                      </svg> 
-                    <a href="${homepage}">${available}</a>
+                    </svg> 
+                    <a href="${homepage || '#'}">${available}</a>
                 </div>
                 <div class="repo-info">
                     <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -79,8 +83,8 @@ async function show_repos(username) {
                     </svg>
                     <span class="language">${repo.language || 'Not specified'}</span>
                 </div>
-                <p class="description">${description}</p>`;
-            content.appendChild(div);
-        });
+                <p class="description">${description}</p>
+            </div>`;
+        }).join('');
     }
 }
