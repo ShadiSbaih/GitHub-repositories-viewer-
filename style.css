@@ -19,7 +19,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 20px;
+    position: relative;
 }
 
 .box {
@@ -107,6 +107,7 @@ input#username::selection {
     gap: 20px;
     width: 100%;
 }
+
 .item-repo {
     width: clamp(280px, 90%, 750px);
     background-color: white;
@@ -117,6 +118,7 @@ input#username::selection {
     overflow: hidden;
 
 }
+
 /*******************************************/
 
 .item-repo::before {
@@ -128,11 +130,12 @@ input#username::selection {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.111);
     clip-path: circle(15px at 32px 30px);
-    transition: clip-path 0.5s ease-in-out;
+    transition: clip-path 1s ease-out;
     z-index: 0;
 }
 
 .item-repo:hover::before {
+    transition: clip-path 0.3s ease-in;
     clip-path: circle(150% at 15px 15px);
 }
 
@@ -193,10 +196,12 @@ body.dark-mode .item-repo::before {
     margin-bottom: 10px;
     color: #4b5563;
 }
-.repo-info a{
+
+.repo-info a {
     color: red;
     font-weight: 800;
 }
+
 .info-icon {
     width: 18px;
     height: 18px;
@@ -284,7 +289,7 @@ body.dark-mode .repo-name {
     color: #ff1f1f;
 }
 
-body.dark-mode .item-repo  a {
+body.dark-mode .item-repo a {
     color: #5672f1;
 }
 
@@ -304,4 +309,108 @@ body.dark-mode svg {
 
 body.dark-mode .repo-title {
     color: #28ff0c;
+}
+
+/* From Uiverse.io by andrew-demchenk0 */
+.switch {
+    font-size: 17px;
+    position: absolute;
+    top: 10px;
+    display: inline-block;
+    width: 94px;
+    height: 34px;
+    z-index: 3;
+}
+
+.main .navbar {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    height: 50px;
+    z-index: 5;
+    top: 0;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #73C0FC;
+    transition: .4s;
+    border-radius: 30px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    left: 2px;
+    bottom: 2px;
+    z-index: 2;
+    background-color: #e8e8e8;
+    transition: .4s;
+}
+
+.sun svg {
+    position: absolute;
+    top: 6px;
+    left: 66px;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+}
+
+.moon svg {
+    fill: #73C0FC;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+}
+
+/* .switch:hover */
+.sun svg {
+    animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.input:checked+.slider {
+    background-color: #183153;
+}
+
+.input:focus+.slider {
+    box-shadow: 0 0 1px #183153;
+}
+
+.input:checked+.slider:before {
+    transform: translateX(60px);
 }
